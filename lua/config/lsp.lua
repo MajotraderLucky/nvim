@@ -1,3 +1,6 @@
+-- Настройка Neodev (чтобы lua-language-server понимал Neovim API)
+require("neodev").setup({})
+
 -- Настройка LSP
 local lspconfig = require("lspconfig")
 

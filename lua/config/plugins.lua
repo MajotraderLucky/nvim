@@ -22,6 +22,13 @@ return {
         end,
     },
 
+    {
+    "folke/neodev.nvim",
+    config = function()
+      require("neodev").setup({})
+    end,
+    },
+
     -- LSP
     "neovim/nvim-lspconfig",
     {
