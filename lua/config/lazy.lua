@@ -1,16 +1,14 @@
--- Убедитесь, что lazy.nvim загружен
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-if not vim.loop.fs_stat(lazypath) then
-    vim.fn.system({
-        "git",
-        "clone",
-        "--filter=blob:none",
-        "https://github.com/folke/lazy.nvim.git",
-        lazypath,
-    })
+if vim.loop and vim.loop.fs_stat and not vim.loop.fs_stat(lazypath) then
+  vim.fn.system({
+    "git",
+    "clone",
+    "--filter=blob:none",
+    "https://github.com/folke/lazy.nvim.git",
+    lazypath,
+  })
 end
 vim.opt.rtp:prepend(lazypath)
 
--- Настройка Lazy.nvim
 require("lazy").setup("config.plugins")
 

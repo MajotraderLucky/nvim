@@ -31,6 +31,17 @@ return {
         end,
     },
 
+    -- Добавляем mason-lspconfig
+    {
+        "williamboman/mason-lspconfig.nvim",
+        config = function()
+            require("mason-lspconfig").setup({
+                ensure_installed = { "lua-language-server", "gopls", "python-lsp-server" }, -- Здесь перечисляем необходимые LSP-серверы
+                automatic_installation = true, -- Включить автоматическую установку серверов
+            })
+        end,
+    },
+
     -- Treesitter
     {
         "nvim-treesitter/nvim-treesitter",
@@ -39,6 +50,10 @@ return {
             require("nvim-treesitter.configs").setup({
                 ensure_installed = { "lua", "go", "markdown" }, -- Добавить языки
                 highlight = { enable = true }, -- Включить подсветку
+                sync_install = false, -- Не синхронизировать языки автоматически
+                auto_install = true, -- Автоматическая установка при открытии файла
+		ignore_install = {},
+		modules= {},
             })
         end,
     },
@@ -67,6 +82,10 @@ return {
                 view = {
                     width = 30,
                     side = "left",
+                },
+                update_focused_file = { -- Добавлена настройка обновления текущего файла
+                    enable = true,
+                    update_root = true,
                 },
             })
         end,
