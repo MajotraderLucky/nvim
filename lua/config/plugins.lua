@@ -112,5 +112,12 @@ return {
             ]])
         end,
     },
-}
 
+    -- Добавление парной скобки
+    {
+	"windwp/nvim-autopairs",
+	config = function()
+		require("nvim-autopairs").setup({})
+	end,
+    },
+}
