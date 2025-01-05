@@ -1,34 +1,34 @@
 vim.keymap.set("n", "<leader>tt", function()
-    local root_dir = nil
+    local current_file_dir = vim.fn.expand("%:p:h") -- Получаем директорию текущего файла
 
-    -- Проверяем, доступен ли модуль LSP
+    -- Запасной вариант: корневая директория LSP (если доступна)
     if vim.lsp and vim.lsp.get_clients then
         local clients = vim.lsp.get_clients()
         if #clients > 0 then
             for _, client in ipairs(clients) do
                 if client.config and client.config.root_dir then
-                    root_dir = client.config.root_dir
+                    current_file_dir = client.config.root_dir
                     break
                 end
             end
         end
     end
 
-    -- Если LSP не дал корневую директорию, используем Git
-    if not root_dir or root_dir == "" then
+    -- Еще один запасной вариант: корневая директория Git (если доступна)
+    if not current_file_dir or current_file_dir == "" then
         local git_root = vim.fn.systemlist("git rev-parse --show-toplevel")[1]
         if vim.v.shell_error == 0 then
-            root_dir = git_root
+            current_file_dir = git_root
         end
     end
 
-    -- Если ни LSP, ни Git не нашли директорию, используем текущую директорию
-    if not root_dir or root_dir == "" then
-        root_dir = vim.fn.getcwd()
+    -- Последний запасной вариант: текущая рабочая директория
+    if not current_file_dir or current_file_dir == "" then
+        current_file_dir = vim.fn.getcwd()
     end
 
-    -- Переходим в корневую директорию и открываем терминал
-    vim.cmd("lcd " .. root_dir)
+    -- Переход в определенную директорию и открытие терминала
+    vim.cmd("lcd " .. vim.fn.fnameescape(current_file_dir))
     vim.cmd("botright 10split | terminal")
 end, { noremap = true, silent = true })
 
