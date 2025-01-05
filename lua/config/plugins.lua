@@ -5,8 +5,8 @@ return {
         config = function()
             require("auto-session").setup({
                 log_level = "info",
-                auto_save = true, -- Включить автоматическое сохранение
-                auto_restore = true, -- Включить автоматическое восстановление
+                auto_save = true,
+                auto_restore = true,
                 suppressed_dirs = { "~/", "~/Downloads", "/" },
             })
         end,
@@ -22,11 +22,12 @@ return {
         end,
     },
 
+    -- Поддержка Neovim API для lua
     {
-    "folke/neodev.nvim",
-    config = function()
-      require("neodev").setup({})
-    end,
+        "folke/neodev.nvim",
+        config = function()
+            require("neodev").setup({})
+        end,
     },
 
     -- LSP
@@ -37,14 +38,12 @@ return {
             require("mason").setup()
         end,
     },
-
-    -- Добавляем mason-lspconfig
     {
         "williamboman/mason-lspconfig.nvim",
         config = function()
             require("mason-lspconfig").setup({
-                ensure_installed = { "lua_ls", "gopls", "pylsp" }, -- Здесь перечисляем необходимые LSP-серверы
-                automatic_installation = true, -- Включить автоматическую установку серверов
+                ensure_installed = { "lua_ls", "gopls", "pylsp" },
+                automatic_installation = true,
             })
         end,
     },
@@ -55,12 +54,12 @@ return {
         run = ":TSUpdate",
         config = function()
             require("nvim-treesitter.configs").setup({
-                ensure_installed = { "lua", "go", "markdown" }, -- Добавить языки
-                highlight = { enable = true }, -- Включить подсветку
-                sync_install = false, -- Не синхронизировать языки автоматически
-                auto_install = true, -- Автоматическая установка при открытии файла
-		ignore_install = {},
-		modules= {},
+                ensure_installed = { "lua", "go", "markdown" },
+                highlight = { enable = true },
+                sync_install = false,
+                auto_install = true,
+                ignore_install = {},
+                modules = {},
             })
         end,
     },
@@ -90,7 +89,7 @@ return {
                     width = 30,
                     side = "left",
                 },
-                update_focused_file = { -- Добавлена настройка обновления текущего файла
+                update_focused_file = {
                     enable = true,
                     update_root = true,
                 },
@@ -102,22 +101,74 @@ return {
     {
         "yonlu/omni.vim",
         config = function()
-            vim.opt.termguicolors = true -- Включить поддержку TrueColor
-            vim.opt.background = "dark"  -- Тёмная тема
-            vim.cmd("colorscheme omni")  -- Установить тему Omni
-
-            -- Настройка яркой подсветки парных скобок
+            vim.opt.termguicolors = true
+            vim.opt.background = "dark"
+            vim.cmd("colorscheme omni")
             vim.cmd([[
                 highlight MatchParen guifg=#000000 guibg=#FFD700 gui=bold,underline
             ]])
         end,
     },
 
-    -- Добавление парной скобки
+    -- Автозакрытие скобок
     {
-	"windwp/nvim-autopairs",
-	config = function()
-		require("nvim-autopairs").setup({})
-	end,
+        "windwp/nvim-autopairs",
+        config = function()
+            require("nvim-autopairs").setup({})
+        end,
+    },
+
+    -- Управление буферами с помощью lualine
+    {
+        "nvim-lualine/lualine.nvim",
+        dependencies = { "nvim-tree/nvim-web-devicons" },
+        config = function()
+            require("lualine").setup({
+                options = {
+                    theme = "auto",
+                    section_separators = "",
+                    component_separators = "",
+                    always_divide_middle = true,
+                    globalstatus = true,
+                },
+                sections = {
+                    lualine_a = { "mode" },
+                    lualine_b = { "branch" },
+                    lualine_c = { "filename" },
+                    lualine_x = { "filetype" },
+                    lualine_y = { "progress" },
+                    lualine_z = { "location" },
+                },
+                tabline = {
+                    lualine_a = { "buffers" },
+                    lualine_b = { "tabs" },
+                },
+                extensions = { "nvim-tree" },
+            })
+        end,
+    },
+
+    -- Представление буферов в виде вкладок
+    {
+        "romgrk/barbar.nvim",
+        dependencies = "nvim-tree/nvim-web-devicons",
+        config = function()
+            require("bufferline").setup({
+                animation = true,
+                auto_hide = false,
+                clickable = true,
+                icons = {
+                    filetype = { enabled = true }, -- Использовать новую настройку icons
+                    separator = { left = "▎", right = "" },
+                    modified = { button = "●" },
+                    pinned = { button = "📌" },
+                },
+                maximum_padding = 2,
+                maximum_length = 30,
+                tabpages = true,
+                semantic_letters = true,
+            })
+        end,
     },
 }
+
