@@ -1,5 +1,13 @@
 -- Настройка Neodev (чтобы lua-language-server понимал Neovim API)
-require("neodev").setup({})
+require("neodev").setup({
+	library = {
+		enabled = true, -- Включить поддержку библиотек
+		runtime = true, -- Добавить Neovim runtime файлы в библиотеку
+		types = true,   -- Добавить типы (для подсказок в LSP)
+		plugins = true, -- Добавить библиотеки для установленных плагинов
+	},
+	lspconfig = true, -- Включить интеграцию с nvim-lspconfig
+})
 
 -- Настройка LSP
 local lspconfig = require("lspconfig")

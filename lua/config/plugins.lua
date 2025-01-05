@@ -43,7 +43,7 @@ return {
         "williamboman/mason-lspconfig.nvim",
         config = function()
             require("mason-lspconfig").setup({
-                ensure_installed = { "lua-language-server", "gopls", "python-lsp-server" }, -- Здесь перечисляем необходимые LSP-серверы
+                ensure_installed = { "lua_ls", "gopls", "pylsp" }, -- Здесь перечисляем необходимые LSP-серверы
                 automatic_installation = true, -- Включить автоматическую установку серверов
             })
         end,
