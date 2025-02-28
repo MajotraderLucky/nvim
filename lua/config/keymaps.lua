@@ -1,3 +1,4 @@
+-- Настройка: открытие терминала в текущей или корневой директории
 vim.keymap.set("n", "<leader>tt", function()
     local current_file_dir = vim.fn.expand("%:p:h") -- Получаем директорию текущего файла
 
@@ -32,3 +33,11 @@ vim.keymap.set("n", "<leader>tt", function()
     vim.cmd("botright 10split | terminal")
 end, { noremap = true, silent = true })
 
+-- Настройка: команда для переименования терминального буфера
+vim.api.nvim_create_user_command(
+    "RenameTerminal",
+    function(opts)
+        vim.api.nvim_buf_set_name(0, opts.args)
+    end,
+    { nargs = 1 }
+)
