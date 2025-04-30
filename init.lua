@@ -11,4 +11,4 @@ require("config.lsp")
 require("config.keymaps")
 
 --Центрирует директорию при нажатии Enter в окне NVIMTREE
-require("config.nvimtree")
+--require("config.nvimtree")
