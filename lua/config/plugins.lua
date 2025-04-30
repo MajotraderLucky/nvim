@@ -134,7 +134,26 @@ return {
                 sections = {
                     lualine_a = { "mode" },
                     lualine_b = { "branch" },
-                    lualine_c = { "filename" },
+                    lualine_c = {
+                        "filename",
+                        {
+                            function()
+                                -- Индикатор раскладки через xkb-switch
+                                local handle = io.popen("xkb-switch")
+                                if handle then
+                                    local layout = handle:read("*a") or ""
+                                    handle:close()
+                                    layout = layout:gsub("%s+", "")
+                                    if layout == "" then
+                                        layout = "?"
+                                    end
+                                    return "⌨️ " .. layout
+                                end
+                                return "⌨️ ?"
+                            end,
+                            icon = "",
+                        },
+                    },
                     lualine_x = { "filetype" },
                     lualine_y = { "progress" },
                     lualine_z = { "location" },
@@ -158,7 +177,7 @@ return {
                 auto_hide = false,
                 clickable = true,
                 icons = {
-                    filetype = { enabled = true }, -- Использовать новую настройку icons
+                    filetype = { enabled = true },
                     separator = { left = "▎", right = "" },
                     modified = { button = "●" },
                     pinned = { button = "📌" },
@@ -171,3 +190,4 @@ return {
         end,
     },
 }
+
